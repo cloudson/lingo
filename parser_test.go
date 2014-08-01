@@ -142,7 +142,7 @@ _/ ___\
 		t.Error(error1)
 	}
 	if serialize(char1) != serialize(expected) {
-		t.Errorf("Expected:\n'%s'\nFound:\n'%s'\n", expected), char1)
+		t.Errorf("Expected:\n'%s'\nFound:\n'%s'\n", expected, char1)
 	}
 
 
