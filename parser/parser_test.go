@@ -91,7 +91,7 @@ _/ ___\
 	if error != nil {
 		t.Error(error)
 	}
-	if char != expected {
+	if char.String() != expected {
 		t.Errorf("Expected:\n%s\nFound:\n%s\n", expected, char)
 	}
 }
@@ -127,7 +127,7 @@ _/ ___\
 	if error != nil {
 		t.Error(error)
 	}
-	if serialize(char) != serialize(expected) {
+	if serialize(char.String()) != serialize(expected) {
 		t.Errorf("Expected:\n'%s'\nFound:\n'%s'\n", expected, char)
 	}
 
@@ -141,7 +141,7 @@ _/ ___\
 	if error1 != nil {
 		t.Error(error1)
 	}
-	if serialize(char1) != serialize(expected) {
+	if serialize(char1.String()) != serialize(expected) {
 		t.Errorf("Expected:\n'%s'\nFound:\n'%s'\n", expected, char1)
 	}
 

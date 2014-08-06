@@ -4,6 +4,7 @@ import (
 	"strings"
 	"strconv"
 	"errors"	
+	"github.com/cloudson/lingo/alphabet"
 )
 
 type Parser struct {
@@ -42,21 +43,21 @@ func (p *Parser) getPositions() (map[rune]int) {
 	return positions
 }
 
-func (p *Parser) getChar(char rune) (string, error) {
+func (p *Parser) getChar(char rune) (*alphabet.Symbol, error) {
 	positions := p.getPositions()
 	position, ok := positions[char]
 	if !ok {
-		return "", errors.New("Char is not found")
+		return nil, errors.New("Char is not found")
 	}
 	
 	contentFiles := strings.Split(p.body, "\n")
 	if p.body == ""{
-		return "", errors.New("Char has not ascii code") 
+		return nil, errors.New("Char has not ascii code") 
 	}
 	charRange := contentFiles[(position-1) * p.header.height:(position -1)* p.header.height + p.header.height]
 	charResult := strings.Join(charRange, "\n")
 
-	return charResult, nil
+	return alphabet.CreateSymbol(charResult), nil
 }
 
 
