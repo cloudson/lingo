@@ -87,7 +87,7 @@ _/ ___\
      \/`
 
 	p := New(fileContent)
-	char, error := p.getChar('c');
+	char, error := p.Char('c');
 	if error != nil {
 		t.Error(error)
 	}
@@ -123,7 +123,7 @@ _/ ___\
      \/`
 
 	p := New(fileContent)
-	char, error := p.getChar('c');
+	char, error := p.Char('c');
 	if error != nil {
 		t.Error(error)
 	}
@@ -137,7 +137,7 @@ _/ ___\
 |  |__
 |____/
       `
-	char1, error1 := p.getChar('l');
+	char1, error1 := p.Char('l');
 	if error1 != nil {
 		t.Error(error1)
 	}

@@ -22,7 +22,7 @@ func (s *Symbol) Width() int {
 	lines := strings.Split(s.raw, "\n")
 	maxWidth := 0 
 	for _, line := range lines {
-		length := utf8.RuneCountInString(strings.Trim(line, " "))
+		length := utf8.RuneCountInString(strings.TrimRight(line, " "))
 		if length > maxWidth {
 			maxWidth = length
 		}
@@ -43,8 +43,8 @@ func Print(s *Symbol, position int) (string, error) {
 		return "", errors.New("Trying access inexisting line")
 	}
 
-	lineRaw := lines[position-1]
-	lineResult := lineRaw + strings.Repeat(" ", s.Width() - utf8.RuneCountInString(lineRaw))
+	lineRaw := strings.TrimRight(lines[position-1], " ")
+	lineResult := lineRaw + strings.Repeat(" ", s.Width() - utf8.RuneCountInString(strings.TrimRight(lineRaw, " ")))
 
 
 	return lineResult, nil

@@ -1,6 +1,7 @@
 package parser
 
 import (
+	"fmt"
 	"strings"
 	"strconv"
 	"errors"	
@@ -43,11 +44,11 @@ func (p *Parser) getPositions() (map[rune]int) {
 	return positions
 }
 
-func (p *Parser) getChar(char rune) (*symbol.Symbol, error) {
+func (p *Parser) Char(char rune) (*symbol.Symbol, error) {
 	positions := p.getPositions()
 	position, ok := positions[char]
 	if !ok {
-		return nil, errors.New("Char is not found")
+		return nil, errors.New(fmt.Sprintf("Char '%s' is not found", string(char)))
 	}
 	
 	contentFiles := strings.Split(p.body, "\n")
