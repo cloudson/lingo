@@ -4,7 +4,7 @@ import (
 	"strings"
 	"strconv"
 	"errors"	
-	"github.com/cloudson/lingo/alphabet"
+	"github.com/cloudson/lingo/symbol"
 )
 
 type Parser struct {
@@ -43,7 +43,7 @@ func (p *Parser) getPositions() (map[rune]int) {
 	return positions
 }
 
-func (p *Parser) getChar(char rune) (*alphabet.Symbol, error) {
+func (p *Parser) getChar(char rune) (*symbol.Symbol, error) {
 	positions := p.getPositions()
 	position, ok := positions[char]
 	if !ok {
@@ -57,7 +57,7 @@ func (p *Parser) getChar(char rune) (*alphabet.Symbol, error) {
 	charRange := contentFiles[(position-1) * p.header.height:(position -1)* p.header.height + p.header.height]
 	charResult := strings.Join(charRange, "\n")
 
-	return alphabet.CreateSymbol(charResult), nil
+	return symbol.New(charResult), nil
 }
 
 

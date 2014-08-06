@@ -1,4 +1,4 @@
-package alphabet 
+package symbol 
 
 import (
 	"strings"
@@ -11,7 +11,7 @@ type Symbol struct {
 	maxWidth int 
 }
 
-func CreateSymbol(char string) (*Symbol) {
+func New(char string) (*Symbol) {
 	s := new(Symbol)
 	s.raw = char
 	s.maxWidth = s.width()
