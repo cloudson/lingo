@@ -9,14 +9,14 @@ import (
 )
 
 type Parser struct {
-	header *Header
+	Header *Header
 	contentRaw string
 	body string
 }
 
 type Header struct {
 	name string
-	height int 
+	Height int 
 	numberOfLines int 
 	positions map[rune]int
 	alphabet string
@@ -25,11 +25,16 @@ type Header struct {
 func New(fileContent string) (*Parser) {
 	p := new(Parser)
 	p.contentRaw = fileContent
-	p.header = generateHeader(p.contentRaw)
+	var e error
+	p.Header, e = generateHeader(p.contentRaw)
+	if e != nil {
+		panic(e)
+	}
+
 	lines := strings.Split(p.contentRaw, "\n")
 	
-	if len(lines) > p.header.numberOfLines + 1 {
-		p.body = strings.Join(lines[p.header.numberOfLines +1:], "\n")
+	if len(lines) > p.Header.numberOfLines + 1 {
+		p.body = strings.Join(lines[p.Header.numberOfLines +1:], "\n")
 	}	
 
 	return p
@@ -37,7 +42,7 @@ func New(fileContent string) (*Parser) {
 
 func (p *Parser) getPositions() (map[rune]int) {
 	var positions = make(map[rune]int)
-	for pos, char := range p.header.alphabet {
+	for pos, char := range p.Header.alphabet {
 		positions[char] = pos + 1
 	}
 
@@ -55,16 +60,16 @@ func (p *Parser) Char(char rune) (*symbol.Symbol, error) {
 	if p.body == ""{
 		return nil, errors.New("Char has not ascii code") 
 	}
-	charRange := contentFiles[(position-1) * p.header.height:(position -1)* p.header.height + p.header.height]
+	charRange := contentFiles[(position-1) * p.Header.Height:(position -1)* p.Header.Height + p.Header.Height]
 	charResult := strings.Join(charRange, "\n")
 
 	return symbol.New(charResult), nil
 }
 
 
-func generateHeader(content string) *Header {
-	header := new(Header)
-	header.numberOfLines = 0
+func generateHeader(content string) (*Header, error) {
+	Header := new(Header)
+	Header.numberOfLines = 0
 	lines := strings.Split(content, "\n")
 	for _, line := range lines {
 		metadataLine := strings.Split(line, ":")
@@ -72,18 +77,29 @@ func generateHeader(content string) *Header {
 			value := strings.Trim(metadataLine[1], " ")
 			switch strings.Trim(metadataLine[0], " ") {
 				case "Name": 
-					header.name = value
+					Header.name = value
 				case "Height" :
-					header.height, _ = strconv.Atoi(value)
+					Header.Height, _ = strconv.Atoi(value)
 				case "Alphabet":
-					header.alphabet = value
+					Header.alphabet = value
 
 			}
 		}
 		if strings.Index(line, "===") == 0 {
 			break
 		}
-		header.numberOfLines += 1
+		Header.numberOfLines += 1
 	}
-	return header
+	var e error
+	if Header.name == "" {
+		e = errors.New("Field 'name' not declared on header")
+	}
+	if Header.Height == 0 {
+		e = errors.New("Field 'height' not declared on header")
+	}
+	if Header.alphabet == "" {
+		e = errors.New("Field 'alphabet' not declared on header")
+	}
+
+	return Header,e
 }

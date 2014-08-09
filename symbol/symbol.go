@@ -39,7 +39,7 @@ func (s *Symbol) String() string {
 func Print(s *Symbol, position int) (string, error) {
 	lines := strings.Split(s.raw, "\n")
 
-	if  position > len(lines) - 1 {
+	if  position > len(lines) || position < 1 {
 		return "", errors.New("Trying access inexisting line")
 	}
 

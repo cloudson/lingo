@@ -50,7 +50,17 @@ func TestPrintLineOutOfRange(t *testing.T) {
 └─┘`
 	
 	s:= New(char)
-	_, error:= Print(s, 5)
+	_, error:= Print(s, 4)
+	if error == nil {
+		t.Error("Should throw error when print out of range")
+	}
+
+	_, error = Print(s, 5)
+	if error == nil {
+		t.Error("Should throw error when print out of range")
+	}
+
+	_, error = Print(s, -1)
 	if error == nil {
 		t.Error("Should throw error when print out of range")
 	}

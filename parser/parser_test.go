@@ -10,7 +10,7 @@ func TestFontname(t *testing.T) {
 	fileContent := `
 Name: Cloud Font 
 	`
-	h := generateHeader(fileContent)
+	h, _:= generateHeader(fileContent)
 	found := h.name
 
 	if found != expected {
@@ -24,8 +24,8 @@ func TestFontHeight(t *testing.T) {
 Name: Best Font
 Height : 5 
 	`
-	h := generateHeader(fileContent)
-	found := h.height
+	h, _:= generateHeader(fileContent)
+	found := h.Height
 
 	if found != expected {
 		t.Errorf("Expected height %d and found height %d ", expected, found)
@@ -40,7 +40,7 @@ Get: lucky!
 	`
 	expected := 2 
 
-	h := generateHeader(fileContent)
+	h, _:= generateHeader(fileContent)
 	found := h.numberOfLines
 	if expected != found {
 		t.Errorf("The header should be %d lines instead of %d", expected, found)
